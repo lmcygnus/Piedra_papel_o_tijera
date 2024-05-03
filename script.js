@@ -1,23 +1,33 @@
 const body = document.querySelector('body');
+const title = document.createElement('h1');
+const buttonsContainer = document.createElement('div');
+const resultsContainer = document.createElement('div');
+const scores = document.createElement('div');
+const results = document.createElement('div');
 const rockChoice = document.createElement('button');
-const img1 = document.createElement('img');
-img1.src = 'roca.png';
-rockChoice.appendChild(img1);
-body.appendChild(rockChoice);
-
 const paperChoice = document.createElement('button');
-const img2 = document.createElement('img');
-img2.src = 'papel-arrugado.png';
-paperChoice.appendChild(img2);
-body.appendChild(paperChoice);
-
 const scissorChoice = document.createElement('button');
+const img1 = document.createElement('img');
+const img2 = document.createElement('img');
 const img3 = document.createElement('img');
+title.textContent = 'Choose an option';
+img1.src = 'roca.png';
+img2.src = 'papel-arrugado.png';
 img3.src = 'tijeras.png';
+rockChoice.appendChild(img1);
+paperChoice.appendChild(img2);
 scissorChoice.appendChild(img3);
-body.appendChild(scissorChoice);
+buttonsContainer.appendChild(rockChoice);
+buttonsContainer.appendChild(paperChoice);
+buttonsContainer.appendChild(scissorChoice);
+resultsContainer.appendChild(scores);
+resultsContainer.appendChild(results);
+body.appendChild(title);
+body.appendChild(buttonsContainer);
+body.appendChild(resultsContainer);
 
 const options = ['paper', 'rock', 'scissor'];
+
 function getComputerChoice() {
   const computerChoice = options[Math.floor(Math.random() * options.length)];
   console.log(`Computer Choice: ${computerChoice}`);
@@ -25,28 +35,35 @@ function getComputerChoice() {
 }
 
 function getHumanChoice() {
-  
+  let humanChoice;
+  rockChoice.addEventListener('click', () => {
+    humanChoice = 'rock';
+  });
+  paperChoice.addEventListener('click', () => {
+    humanChoice = 'paper';
+  });
+  scissorChoice.addEventListener('click', () => {
+    humanChoice = 'scissor';
+  });
+  return humanChoice;
 }
-
-getHumanChoice();
 
 let humanScore = 0;
 let computerScore = 0;
 
 function playRound(humanChoice, computerChoice) {
+  scores.textContent = `Your Score = ${humanScore}`;
   if ((humanChoice === 'paper' && computerChoice === 'paper')
     || (humanChoice === 'rock' && computerChoice === 'rock')
     || (humanChoice === 'scissor' && computerChoice === 'scissor')) {
-    console.log("It's a tie");
+    results.textContent = "It's a tie";
   } else if ((humanChoice === 'paper' && computerChoice === 'rock')
     || (humanChoice === 'rock' && computerChoice === 'scissor')
     || (humanChoice === 'scissor' && computerChoice === 'paper')) {
-    console.log(`${humanChoice} wins ${computerChoice}`);
+    results.textContent = `${humanChoice} wins ${computerChoice}`;
     humanScore += 1;
   } else {
-    console.log(`${computerChoice} wins ${humanChoice}`);
+    results.textContent = `${computerChoice} wins ${humanChoice}`;
     computerScore += 1;
   }
 }
-
-playGame();
