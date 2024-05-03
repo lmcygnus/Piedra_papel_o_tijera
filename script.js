@@ -1,3 +1,21 @@
+const body = document.querySelector('body');
+const rockChoice = document.createElement('button');
+const img1 = document.createElement('img');
+img1.src = 'roca.png';
+rockChoice.appendChild(img1);
+body.appendChild(rockChoice);
+
+const paperChoice = document.createElement('button');
+const img2 = document.createElement('img');
+img2.src = 'papel-arrugado.png';
+paperChoice.appendChild(img2);
+body.appendChild(paperChoice);
+
+const scissorChoice = document.createElement('button');
+const img3 = document.createElement('img');
+img3.src = 'tijeras.png';
+scissorChoice.appendChild(img3);
+body.appendChild(scissorChoice);
 
 const options = ['paper', 'rock', 'scissor'];
 function getComputerChoice() {
@@ -7,15 +25,10 @@ function getComputerChoice() {
 }
 
 function getHumanChoice() {
-  const rockChoice = document.createElement('button');
-   
-  if (humanChoice !== 'rock' && humanChoice !== 'paper' && humanChoice !== 'scissor') {
-    alert('Write a valid option!');
-    humanChoice;
-  }
-  console.log(`Human Choice: ${humanChoice}`);
-  return humanChoice;
+  
 }
+
+getHumanChoice();
 
 let humanScore = 0;
 let computerScore = 0;
@@ -33,14 +46,6 @@ function playRound(humanChoice, computerChoice) {
   } else {
     console.log(`${computerChoice} wins ${humanChoice}`);
     computerScore += 1;
-  }
-}
-
-function playGame() {
-  for (let i = 0; i < 5; i += 1) {
-    playRound(getHumanChoice(), getComputerChoice());
-    console.log(`Human score: ${humanScore}`);
-    console.log(`Computer score: ${computerScore}`);
   }
 }
 
