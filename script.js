@@ -1,3 +1,4 @@
+
 const options = ['paper', 'rock', 'scissor'];
 function getComputerChoice() {
   const computerChoice = options[Math.floor(Math.random() * options.length)];
@@ -6,8 +7,8 @@ function getComputerChoice() {
 }
 
 function getHumanChoice() {
-  const humanChoice = prompt('Write your choice (Rock, paper or scissor');
-  humanChoice.toLowerCase();
+  const rockChoice = document.createElement('button');
+   
   if (humanChoice !== 'rock' && humanChoice !== 'paper' && humanChoice !== 'scissor') {
     alert('Write a valid option!');
     humanChoice;
