@@ -10,7 +10,13 @@ const scissorChoice = document.createElement('button');
 const img1 = document.createElement('img');
 const img2 = document.createElement('img');
 const img3 = document.createElement('img');
+const restart = document.createElement('button');
+const dialog = document.createElement('div');
+
+restart.textContent = 'Restart game';
 title.textContent = 'Choose an option';
+resultsContainer.classList.add('results');
+buttonsContainer.classList.add('buttons');
 img1.src = 'roca.png';
 img2.src = 'papel-arrugado.png';
 img3.src = 'tijeras.png';
@@ -24,46 +30,86 @@ resultsContainer.appendChild(scores);
 resultsContainer.appendChild(results);
 body.appendChild(title);
 body.appendChild(buttonsContainer);
+body.appendChild(dialog);
 body.appendChild(resultsContainer);
+body.appendChild(restart);
 
 const options = ['paper', 'rock', 'scissor'];
+let humanScore = 0;
+let computerScore = 0;
+let result;
+let winner;
+
+function win(hs, cs) {
+  if (humanScore < computerScore) {
+    winner = `Computer wins ${cs} to ${hs}`;
+  } else if (humanScore > computerScore) {
+    winner = `You win ${hs} to ${cs}`;
+  } else {
+    winner = 'It\'s a tie';
+  }
+}
 
 function getComputerChoice() {
   const computerChoice = options[Math.floor(Math.random() * options.length)];
-  console.log(`Computer Choice: ${computerChoice}`);
   return computerChoice;
 }
 
-function getHumanChoice() {
-  let humanChoice;
-  rockChoice.addEventListener('click', () => {
-    humanChoice = 'rock';
-  });
-  paperChoice.addEventListener('click', () => {
-    humanChoice = 'paper';
-  });
-  scissorChoice.addEventListener('click', () => {
-    humanChoice = 'scissor';
-  });
-  return humanChoice;
+function restartGame() {
+  humanScore = 0;
+  computerScore = 0;
+  scores.innerHTML = `Your Score = ${humanScore} <br> Computer Score = ${computerScore} <br>`;
+  results.innerHTML = 'You Choice:  <br> Computer Choice:  <br> Result: <br>';
 }
 
-let humanScore = 0;
-let computerScore = 0;
+function gameOver(hscore, cscore) {
+  win(hscore, cscore);
+  dialog.textContent = winner;
+  results.textContent = '';
+  restartGame();
+}
 
 function playRound(humanChoice, computerChoice) {
-  scores.textContent = `Your Score = ${humanScore}`;
+  dialog.textContent = '';
   if ((humanChoice === 'paper' && computerChoice === 'paper')
-    || (humanChoice === 'rock' && computerChoice === 'rock')
-    || (humanChoice === 'scissor' && computerChoice === 'scissor')) {
-    results.textContent = "It's a tie";
+  || (humanChoice === 'rock' && computerChoice === 'rock')
+|| (humanChoice === 'scissor' && computerChoice === 'scissor')) {
+    result = 'It\'s a tie';
   } else if ((humanChoice === 'paper' && computerChoice === 'rock')
-    || (humanChoice === 'rock' && computerChoice === 'scissor')
-    || (humanChoice === 'scissor' && computerChoice === 'paper')) {
-    results.textContent = `${humanChoice} wins ${computerChoice}`;
+|| (humanChoice === 'rock' && computerChoice === 'scissor')
+|| (humanChoice === 'scissor' && computerChoice === 'paper')) {
+    result = `${humanChoice} wins ${computerChoice}`;
     humanScore += 1;
-  } else {
-    results.textContent = `${computerChoice} wins ${humanChoice}`;
+  } else if ((computerChoice === 'paper' && humanChoice === 'rock')
+  || (computerChoice === 'rock' && humanChoice === 'scissor')
+  || (computerChoice === 'scissor' && humanChoice === 'paper')) {
+    result = ` ${computerChoice} wins ${humanChoice}`;
     computerScore += 1;
   }
+  results.innerHTML = `You Choice: ${humanChoice} <br> Computer Choice: ${computerChoice} <br> Result: ${result} <br>`;
+  scores.innerHTML = `Your Score = ${humanScore} <br> Computer Score = ${computerScore} <br>`;
+  if (humanScore === 5 || computerScore === 5) {
+    gameOver(humanScore, computerScore);
+  }
 }
+
+function getHumanChoice() {
+  rockChoice.addEventListener('click', () => {
+    playRound('rock', getComputerChoice());
+  });
+  paperChoice.addEventListener('click', () => {
+    playRound('paper', getComputerChoice());
+  });
+  scissorChoice.addEventListener('click', () => {
+    playRound('scissor', getComputerChoice());
+  });
+}
+
+getHumanChoice();
+
+restart.addEventListener('click', () => {
+  restartGame();
+  dialog.textContent = '';
+});
+scores.innerHTML = `Your Score = ${humanScore} <br> Computer Score = ${computerScore} <br>`;
+results.innerHTML = 'You Choice:  <br> Computer Choice:  <br> Result: <br>';
